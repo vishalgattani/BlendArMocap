@@ -114,6 +114,11 @@ class RealtimeDetector(ABC):
 
     def cvt2landmark_array(self, landmark_list):
         """landmark_list: A normalized landmark list proto message to be annotated on the image."""
+        # print([[idx, [landmark.x, landmark.y, landmark.z]] for idx, landmark in enumerate(landmark_list.landmark)])
+        # print([[idx, landmark] for idx, landmark in enumerate(landmark_list.landmark)])
+        # print(landmark_list)
+        # for idx, landmark in enumerate(landmark_list.landmark):
+        #     print(idx,landmark.x)
         return [[idx, [landmark.x, landmark.y, landmark.z]] for idx, landmark in enumerate(landmark_list.landmark)]
 
     def __del__(self):

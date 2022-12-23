@@ -18,6 +18,8 @@ import mediapipe as mp
 
 from . import detector_interface
 
+import numpy as np
+
 
 class HolisticDetector(detector_interface.RealtimeDetector):
     # https://google.github.io/mediapipe/solutions/holistic#python-solution-api
@@ -47,12 +49,27 @@ class HolisticDetector(detector_interface.RealtimeDetector):
         face, pose, l_hand, r_hand = [], [], [], []
         if mp_res.pose_landmarks:
             pose = self.cvt2landmark_array(mp_res.pose_landmarks)
+            # if(len(pose)==33):
+            #     lh_shoulder_coords = np.asarray(pose[11][1])
+            #     lh_elbow_coords = np.asarray(pose[13][1])
+            #     lh_wrist_coords = np.asarray(pose[15][1])
+            #     ba = lh_elbow_coords-lh_shoulder_coords
+            #     bc = lh_elbow_coords-lh_wrist_coords
+            #     cosine_angle = np.dot(ba, bc) / (np.linalg.norm(ba) * np.linalg.norm(bc))
+            #     angle = np.arccos(cosine_angle)
+            #     print("LEFT ELBOW",np.degrees(angle))
+                # print(lh_shoulder_coords,lh_elbow_coords,lh_wrist_coords)
+
+
         if mp_res.face_landmarks:
             face = self.cvt2landmark_array(mp_res.face_landmarks)
         if mp_res.left_hand_landmarks:
             l_hand = [self.cvt2landmark_array(mp_res.left_hand_landmarks)]
         if mp_res.right_hand_landmarks:
             r_hand = [self.cvt2landmark_array(mp_res.right_hand_landmarks)]
+
+
+
         return [[l_hand, r_hand], [face], pose]
 
     def contains_features(self, mp_res):
@@ -61,13 +78,13 @@ class HolisticDetector(detector_interface.RealtimeDetector):
         return True
 
     def draw_result(self, s, mp_res, mp_drawings):
-        mp_drawings.draw_landmarks(
-            s.frame,
-            mp_res.face_landmarks,
-            self.solution.FACEMESH_CONTOURS,
-            landmark_drawing_spec=None,
-            connection_drawing_spec=self.drawing_style
-                .get_default_face_mesh_contours_style())
+        # mp_drawings.draw_landmarks(
+        #     s.frame,
+        #     mp_res.face_landmarks,
+        #     self.solution.FACEMESH_CONTOURS,
+        #     landmark_drawing_spec=None,
+        #     connection_drawing_spec=self.drawing_style
+        #         .get_default_face_mesh_contours_style())
         mp_drawings.draw_landmarks(
             s.frame,
             mp_res.pose_landmarks,

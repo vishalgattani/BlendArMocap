@@ -113,8 +113,10 @@ class HolisticBpyUpdateReceiver(op.Observer):
             if len(_listener.data[idx][0]) < 1:
                 print("data not updated")
                 continue
-            
+
+
             processor.data = _listener.data[idx]
+            # print("-->",processor.data)
             processor.frame = _listener.frame
             processor.init_data()
             processor.update()

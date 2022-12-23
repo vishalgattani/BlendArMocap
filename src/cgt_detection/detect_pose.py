@@ -16,7 +16,7 @@ Copyright (C) cgtinker, cgtinker.com, hello@cgtinker.com
 '''
 
 from pathlib import Path
-import bpy 
+import bpy
 import mediapipe as mp
 
 from . import detector_interface
@@ -58,6 +58,9 @@ class PoseDetector(detector_interface.RealtimeDetector):
         self.solution = mp.solutions.pose
 
     def get_detection_results(self, mp_res):
+        data = self.cvt2landmark_array(mp_res.pose_world_landmarks)
+        # print(data)
+        # print("="*20)
         return self.cvt2landmark_array(mp_res.pose_world_landmarks)
 
     def contains_features(self, mp_res):

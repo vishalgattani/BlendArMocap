@@ -152,9 +152,12 @@ def main():
     handler = DetectionHandler("FACE", "DEBUG")
     handler.init_detector(0, "sd", 0, 0, 0, 0)
     handler.init_bridge()
+    # for _ in range(15):
+    #     handler.detector.image_detection()
 
-    for _ in range(15):
-        handler.detector.image_detection()
+    # for faster detection don't use for loop above
+    handler.detector.image_detection()
+
 
     del handler
 
